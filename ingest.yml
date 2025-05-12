@@ -1,0 +1,24 @@
+name: Ingest PIAS Forms
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+      - name: Run ingest script
+        env:
+          CODY_API_KEY: ${{ secrets.CODY_API_KEY }}
+        run: python ingest.py
+Add GitHub Actions workflow
